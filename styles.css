@@ -1,0 +1,15 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #d9d9d9;
+    overflow: hidden;
+    text-align: center;
+}
+
+#canvas {
+    background-color: #efefef;
+}

@@ -1,0 +1,23 @@
+{
+  "name": "a_car",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toxuh/a_car.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toxuh/a_car/issues"
+  },
+  "homepage": "https://github.com/toxuh/a_car#readme",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
