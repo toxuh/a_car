@@ -30,6 +30,7 @@ export class Car {
   }
 
   update() {
+    // Vertical handling
     if (this.controls.forward) {
       this.speed += this.acceleration;
     }
@@ -54,7 +55,20 @@ export class Car {
       this.speed += this.friction;
     }
 
+    if (Math.abs(this.speed) < this.friction) {
+      this.speed = 0;
+    }
+
     this.y -= this.speed;
+
+    // Horizontal handling
+    if (this.controls.left) {
+      this.x -= 2;
+    }
+
+    if (this.controls.right) {
+      this.x += 2;
+    }
   }
 
   draw(ctx: CanvasRenderingContext2D | null) {
