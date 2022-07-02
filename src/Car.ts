@@ -66,19 +66,15 @@ export class Car {
     this.y -= Math.cos(this.angle) * this.speed;
 
     // Horizontal handling
-    if (this.controls.left) {
-      if (this.speed > 0) {
-        this.angle -= this.angleChangeRatio;
-      } else if (this.speed < 0) {
-        this.angle += this.angleChangeRatio;
-      }
-    }
+    if (this.speed !== 0) {
+      const direction = this.speed > 0 ? 1 : -1;
 
-    if (this.controls.right) {
-      if (this.speed > 0) {
-        this.angle += this.angleChangeRatio;
-      } else if (this.speed < 0) {
-        this.angle -= this.angleChangeRatio;
+      if (this.controls.left) {
+        this.angle -= this.angleChangeRatio * direction;
+      }
+
+      if (this.controls.right) {
+        this.angle += this.angleChangeRatio * direction;
       }
     }
 
