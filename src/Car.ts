@@ -33,7 +33,7 @@ export class Car {
     this.controls = new Controls();
   }
 
-  update() {
+  #move() {
     // Vertical handling
     if (this.controls.forward) {
       this.speed += this.acceleration;
@@ -79,6 +79,10 @@ export class Car {
     }
 
     this.x += Math.sin(this.angle) * this.speed;
+  }
+
+  update() {
+    this.#move();
   }
 
   draw(ctx: CanvasRenderingContext2D | null) {
