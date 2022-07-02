@@ -30,13 +30,33 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./src/Road.ts":
+/*!*********************!*\
+  !*** ./src/Road.ts ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Road\": () => (/* binding */ Road)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ \"./src/utils.ts\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, \"prototype\", { writable: false }); return Constructor; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n\nvar Road = /*#__PURE__*/function () {\n  function Road(x, w) {\n    var lc = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 3;\n\n    _classCallCheck(this, Road);\n\n    _defineProperty(this, \"x\", void 0);\n\n    _defineProperty(this, \"w\", void 0);\n\n    _defineProperty(this, \"l\", void 0);\n\n    _defineProperty(this, \"r\", void 0);\n\n    _defineProperty(this, \"t\", void 0);\n\n    _defineProperty(this, \"b\", void 0);\n\n    _defineProperty(this, \"laneCount\", void 0);\n\n    _defineProperty(this, \"borders\", void 0);\n\n    var inf = 100000000;\n    this.x = x;\n    this.w = w;\n    this.laneCount = lc;\n    this.l = x - w / 2;\n    this.r = x + w / 2;\n    this.t = -inf;\n    this.b = inf;\n    var topLeft = {\n      x: this.l,\n      y: this.t\n    };\n    var topRight = {\n      x: this.r,\n      y: this.t\n    };\n    var bottomLeft = {\n      x: this.l,\n      y: this.b\n    };\n    var bottomRight = {\n      x: this.r,\n      y: this.b\n    };\n    this.borders = [[topLeft, bottomLeft], [topRight, bottomRight]];\n  }\n\n  _createClass(Road, [{\n    key: \"getLaneCenter\",\n    value: function getLaneCenter(i) {\n      var w = this.w / this.laneCount;\n      return this.l + w / 2 + Math.min(i, this.laneCount - 1) * w;\n    }\n  }, {\n    key: \"draw\",\n    value: function draw(ctx) {\n      if (ctx) {\n        ctx.lineWidth = 5;\n        ctx.strokeStyle = \"white\";\n\n        for (var i = 0; i <= this.laneCount - 1; i++) {\n          var x = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.lerp)(this.l, this.r, i / this.laneCount);\n          ctx.setLineDash([30, 25]);\n          ctx.beginPath();\n          ctx.moveTo(x, this.t);\n          ctx.lineTo(x, this.b);\n          ctx.stroke();\n        }\n\n        ctx.setLineDash([]);\n        this.borders.forEach(function (b) {\n          ctx.beginPath();\n          ctx.moveTo(b[0].x, b[0].y);\n          ctx.lineTo(b[1].x, b[1].y);\n          ctx.stroke();\n        });\n      }\n    }\n  }]);\n\n  return Road;\n}();\n\n//# sourceURL=webpack://a_car/./src/Road.ts?");
+
+/***/ }),
+
 /***/ "./src/index.ts":
 /*!**********************!*\
   !*** ./src/index.ts ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Car__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Car */ \"./src/Car.ts\");\n\nvar canvas = document.getElementById(\"canvas\");\ncanvas.width = 300;\nvar ctx = canvas.getContext(\"2d\");\nvar car = new _Car__WEBPACK_IMPORTED_MODULE_0__.Car(100, 100, 30, 50);\n\nvar animate = function animate() {\n  car.update();\n  canvas.height = window.innerHeight;\n  car.draw(ctx);\n  requestAnimationFrame(animate);\n};\n\nanimate();\n\n//# sourceURL=webpack://a_car/./src/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Car__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Car */ \"./src/Car.ts\");\n/* harmony import */ var _Road__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Road */ \"./src/Road.ts\");\n\n\nvar canvas = document.getElementById(\"canvas\");\ncanvas.width = 300;\nvar ctx = canvas.getContext(\"2d\");\nvar road = new _Road__WEBPACK_IMPORTED_MODULE_1__.Road(canvas.width / 2, canvas.width * 0.9);\nvar car = new _Car__WEBPACK_IMPORTED_MODULE_0__.Car(road.getLaneCenter(1), 100, 30, 50);\n\nvar animate = function animate() {\n  if (ctx) {\n    car.update();\n    canvas.height = window.innerHeight;\n    ctx.save();\n    ctx.translate(0, -car.y + canvas.height * 0.7); // Positioning car by vertical (0 to 1).\n\n    road.draw(ctx);\n    car.draw(ctx);\n    ctx.restore();\n    requestAnimationFrame(animate);\n  }\n};\n\nanimate();\n\n//# sourceURL=webpack://a_car/./src/index.ts?");
+
+/***/ }),
+
+/***/ "./src/utils.ts":
+/*!**********************!*\
+  !*** ./src/utils.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"lerp\": () => (/* binding */ lerp)\n/* harmony export */ });\nvar lerp = function lerp(a, b, t) {\n  return a + (b - a) * t;\n};\n\n//# sourceURL=webpack://a_car/./src/utils.ts?");
 
 /***/ })
 
