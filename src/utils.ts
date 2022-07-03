@@ -8,7 +8,7 @@ export const linearInterpolation = (
   return a + (b - a) * t;
 };
 
-export const getIntersections = (
+export const linesIntersection = (
   a: Coords,
   b: Coords,
   c: Coords,
@@ -32,4 +32,26 @@ export const getIntersections = (
   }
 
   return null;
+};
+
+export const polygonsIntersection = (
+  firstPoly: Coords[],
+  secondPoly: Coords[]
+): boolean => {
+  for (let i = 0; i < firstPoly.length; i++) {
+    for (let j = 0; j < secondPoly.length; j++) {
+      const touch = linesIntersection(
+        firstPoly[i],
+        firstPoly[(i + 1) % firstPoly.length],
+        secondPoly[j],
+        secondPoly[(j + 1) % secondPoly.length]
+      );
+
+      if (touch) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 };

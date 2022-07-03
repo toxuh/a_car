@@ -1,5 +1,5 @@
 import { Car } from "./Car";
-import { getIntersections, linearInterpolation, Coords } from "./utils";
+import { linesIntersection, linearInterpolation, Coords } from "./utils";
 
 type Rays = [Coords, Coords][];
 type Reading = { x: number; y: number; offset: number } | undefined | null;
@@ -33,7 +33,7 @@ export class Sensor {
           this.raysSpread / 2,
           -this.raysSpread / 2,
           this.raysCount === 1 ? 0.5 : i / (this.raysCount - 1)
-        ) - this.car.angle;
+        ) + this.car.angle;
 
       const start = { x: this.car.x, y: this.car.y };
 
@@ -50,7 +50,7 @@ export class Sensor {
     const touches = [];
 
     for (let i = 0; i < borders.length; i++) {
-      const touch = getIntersections(
+      const touch = linesIntersection(
         ray[0],
         ray[1],
         borders[i][0],
@@ -93,7 +93,7 @@ export class Sensor {
         if (end) {
           ctx.beginPath();
           ctx.lineWidth = 2;
-          ctx.strokeStyle = "#fed330";
+          ctx.strokeStyle = "#45aaf2";
           ctx.moveTo(this.rays[i][0].x, this.rays[i][0].y);
           ctx.lineTo(end.x, end.y);
           ctx.stroke();
