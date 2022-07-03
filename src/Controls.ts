@@ -29,7 +29,7 @@ export class Controls {
           this.reverse = true;
           break;
       }
-    }
+    };
 
     document.onkeyup = (e) => {
       switch (e.key) {
@@ -46,6 +46,6 @@ export class Controls {
           this.reverse = false;
           break;
       }
-    }
+    };
   }
 }

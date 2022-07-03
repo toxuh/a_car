@@ -1,4 +1,5 @@
 import { Controls } from "./Controls";
+import { Sensor } from "./Sensor";
 
 export class Car {
   x: number;
@@ -14,6 +15,7 @@ export class Car {
   angle: number;
   angleChangeRatio: number;
 
+  sensor: Sensor;
   controls: Controls;
 
   constructor(x: number, y: number, w: number, h: number) {
@@ -30,6 +32,7 @@ export class Car {
     this.angle = 0;
     this.angleChangeRatio = 0.03;
 
+    this.sensor = new Sensor(this);
     this.controls = new Controls();
   }
 
@@ -81,8 +84,9 @@ export class Car {
     this.x += Math.sin(this.angle) * this.speed;
   }
 
-  update() {
+  update(borders: [{ x: number; y: number }, { x: number; y: number }][]) {
     this.#move();
+    this.sensor.update(borders);
   }
 
   draw(ctx: CanvasRenderingContext2D | null) {
@@ -91,9 +95,12 @@ export class Car {
       ctx.translate(this.x, this.y);
       ctx.rotate(this.angle);
       ctx.beginPath();
+      ctx.fillStyle = "#4b6584";
       ctx.rect(-this.w / 2, -this.h / 2, this.w, this.h);
       ctx.fill();
       ctx.restore();
+
+      this.sensor.draw(ctx);
     }
   }
 }

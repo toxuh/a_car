@@ -1,4 +1,4 @@
-import { lerp } from "./utils";
+import { linearInterpolation } from "./utils";
 
 export class Road {
   x: number;
@@ -11,7 +11,7 @@ export class Road {
 
   laneCount: number;
 
-  borders: {x: number, y: number}[][];
+  borders: [{ x: number; y: number }, { x: number; y: number }][];
 
   constructor(x: number, w: number, lc: number = 3) {
     const inf = 100000000;
@@ -25,12 +25,15 @@ export class Road {
     this.t = -inf;
     this.b = inf;
 
-    const topLeft = {x: this.l, y: this.t};
-    const topRight = {x: this.r, y: this.t};
-    const bottomLeft = {x: this.l, y: this.b};
-    const bottomRight = {x: this.r, y: this.b};
+    const topLeft = { x: this.l, y: this.t };
+    const topRight = { x: this.r, y: this.t };
+    const bottomLeft = { x: this.l, y: this.b };
+    const bottomRight = { x: this.r, y: this.b };
 
-    this.borders = [[topLeft, bottomLeft], [topRight, bottomRight]]
+    this.borders = [
+      [topLeft, bottomLeft],
+      [topRight, bottomRight],
+    ];
   }
 
   getLaneCenter(i: number) {
@@ -45,7 +48,7 @@ export class Road {
       ctx.strokeStyle = "white";
 
       for (let i = 0; i <= this.laneCount - 1; i++) {
-        const x = lerp(this.l, this.r, i / this.laneCount);
+        const x = linearInterpolation(this.l, this.r, i / this.laneCount);
 
         ctx.setLineDash([30, 25]);
         ctx.beginPath();
@@ -61,7 +64,7 @@ export class Road {
         ctx.moveTo(b[0].x, b[0].y);
         ctx.lineTo(b[1].x, b[1].y);
         ctx.stroke();
-      })
+      });
     }
   }
 }
